@@ -1,0 +1,12 @@
+version: "3.8"
+
+services:
+  aspnetapp:
+    image: aspnetapp
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80:8080"
+    volumes:
+      - ./users.db:/app/users.db # Sincroniza o arquivo local com o contêiner para persistência
