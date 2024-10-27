@@ -10,7 +10,7 @@ using System.IdentityModel.Tokens.Jwt;
 var builder = WebApplication.CreateBuilder(args);
 
 // Configura a chave de segurança de 256 bits (32 caracteres)
-var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("secretsecretsecretsecretsecretsecretsecretsecret"));
+var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("BDsRJ3ypxC10vRaGn8/2Zbj11k89zJDU5UqtJl5BprA="));
 
 // Configura o banco de dados SQLite
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -46,7 +46,7 @@ using (var scope = app.Services.CreateScope())
     dbContext.Database.Migrate();
 }
 
-app.MapGet("/", () => "Hello World!");
+app.MapGet("/", () => "ASP.NET Core API");
 
 // Endpoint para criar um novo usuário
 app.MapPost("/api/users", async (AppDbContext db, User user) =>
@@ -54,18 +54,19 @@ app.MapPost("/api/users", async (AppDbContext db, User user) =>
     db.Users.Add(user);
     await db.SaveChangesAsync();
     return Results.Created($"/api/users/{user.Id}", user);
-});
+}).RequireAuthorization();
 
 // Endpoint para listar todos os usuários, com autorização
 app.MapGet("/api/users", async (AppDbContext db) =>
-    await db.Users.ToListAsync()).RequireAuthorization();
+    await db.Users.ToListAsync()
+).RequireAuthorization();
 
 // Endpoint para obter um usuário por ID
 app.MapGet("/api/users/{id}", async (AppDbContext db, int id) =>
 {
     var user = await db.Users.FindAsync(id);
     return user is not null ? Results.Ok(user) : Results.NotFound();
-});
+}).RequireAuthorization();
 
 // Endpoint para atualizar um usuário
 app.MapPut("/api/users/{id}", async (AppDbContext db, int id, User updatedUser) =>
@@ -78,7 +79,7 @@ app.MapPut("/api/users/{id}", async (AppDbContext db, int id, User updatedUser) 
 
     await db.SaveChangesAsync();
     return Results.NoContent();
-});
+}).RequireAuthorization();
 
 // Endpoint para remover um usuário
 app.MapDelete("/api/users/{id}", async (AppDbContext db, int id) =>
@@ -89,7 +90,7 @@ app.MapDelete("/api/users/{id}", async (AppDbContext db, int id) =>
     db.Users.Remove(user);
     await db.SaveChangesAsync();
     return Results.Ok(user);
-});
+}).RequireAuthorization();
 
 // Endpoint de login para gerar um token JWT
 app.MapPost("/api/login", (UserLogin login) =>

@@ -165,7 +165,7 @@ Todos os endpoints abaixo requerem autenticação JWT. Use o token obtido no log
 
 ## Segurança e Observações
 
-- **JWT Key**: Certifique-se de que a chave secreta JWT (`secretsecretsecretsecretsecretsecretsecretsecret`) seja mantida segura e nunca exposta publicamente. Em produção, você deve usar variáveis de ambiente para armazenar a chave de autenticação.
+- **JWT Key**: Certifique-se de que a chave secreta JWT (`BDsRJ3ypxC10vRaGn8/2Zbj11k89zJDU5UqtJl5BprA=`) seja mantida segura e nunca exposta publicamente. Em produção, você deve usar variáveis de ambiente para armazenar a chave de autenticação.
 - **Persistência de Dados**: O arquivo `users.db` é utilizado para persistência dos dados localmente. Em um ambiente de produção, considere utilizar um sistema de banco de dados mais robusto, como SQL Server, PostgreSQL ou MySQL.
 
 ## Referências
